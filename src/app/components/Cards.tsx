@@ -8,6 +8,7 @@ type CardType = {
     id: string;
     title: string;
     description: string;
+    completed: boolean;
 }
 
 type ColumnKey = 'toDo' | 'onProgress' | 'completed';
@@ -18,17 +19,17 @@ export default function Cards(){
 
     const [columns, setColumns] = useStickyState({
         toDo: [
-            {id: "t1", title: "Brainstorming", description: "Brainstorming brings team members' diverse experience into play."},
-            {id: "t2", title: "Research", description: "User research helps you to create an optimal product for users."},
-            {id: "t3", title: "Wireframes", description: "Low fidelity wireframes include the most basic content and visuals."}
+            {id: "t1", title: "Brainstorming", description: "Brainstorming brings team members' diverse experience into play.", completed: false},
+            {id: "t2", title: "Research", description: "User research helps you to create an optimal product for users.", completed: false},
+            {id: "t3", title: "Wireframes", description: "Low fidelity wireframes include the most basic content and visuals.", completed: false}
         ],
         onProgress: [
-            {id: "p1", title: "Onboarding Illustrations ", description: "/cardImage1.png"},
-            {id: "p2", title: "Onboarding Illustrations ", description: "/cardImage1.png"}
+            {id: "p1", title: "Onboarding Illustrations ", description: "/cardImage1.png", completed: false},
+            {id: "p2", title: "Onboarding Illustrations ", description: "/cardImage1.png", completed: false}
         ],
         completed: [
-            {id: "c1", title: "Mobile App Design", description: "/cardImage4.png"},
-            {id: "c2", title: "Design System", description: "It just needs to adapt the UI from what you did before."}
+            {id: "c1", title: "Mobile App Design", description: "/cardImage4.png", completed: true},
+            {id: "c2", title: "Design System", description: "It just needs to adapt the UI from what you did before.", completed: true}
         ]
     }, "cards")
 
@@ -68,7 +69,11 @@ export default function Cards(){
 
             const [moved] = fromList.splice(source.index, 1)
             toList.splice(destination.index, 0, moved)
-
+            if(to === 'completed'){
+                moved.completed = true
+            }else{
+                moved.completed = false
+            }
             next[from] = fromList
             next[to] = toList
             return next
@@ -103,7 +108,7 @@ export default function Cards(){
                                         <Draggable draggableId={card.id} key={card.id} index={index}>
                                             {(provided) => (
                                                 <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                    <Card id={card.id} title={card.title} description={card.description}/>
+                                                    <Card id={card.id} title={card.title} description={card.description} completed={card.completed}/>
                                                 </div>
                                             )}
                                         </Draggable>
@@ -131,7 +136,7 @@ export default function Cards(){
                                         <Draggable draggableId={card.id} key={card.id} index={index}>
                                             {(provided) => (
                                                 <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                    <Card id={card.id} title={card.title} description={card.description}/>
+                                                    <Card id={card.id} title={card.title} description={card.description} completed={card.completed}/>
                                                 </div>
                                             )}
                                         </Draggable>
@@ -159,7 +164,7 @@ export default function Cards(){
                                         <Draggable draggableId={card.id} key={card.id} index={index}>
                                             {(provided) => (
                                                 <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                    <Card id={card.id} title={card.title} description={card.description}/>
+                                                    <Card id={card.id} title={card.title} description={card.description} completed={card.completed}/>
                                                 </div>
                                             )}
                                         </Draggable>
